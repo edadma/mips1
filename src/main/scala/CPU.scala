@@ -1,7 +1,7 @@
 package xyz.hyperreal.mips1
 
 
-class MIPS1CPU( val memory: Memory, val endianness: Endianness ) {
+class CPU( val mem: Memory, val endianness: Endianness ) {
 
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
@@ -9,8 +9,13 @@ class MIPS1CPU( val memory: Memory, val endianness: Endianness ) {
     Array(
 
     )
+
+  def put( reg: Int, v: Int ) =
+    if (reg != 0)
+      regs(reg) = v
+
   def execute: Boolean = {
-    val inst = memory.readInt( pc )
+    val inst = mem.readInt( pc )
 
 
     true

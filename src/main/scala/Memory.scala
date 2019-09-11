@@ -123,10 +123,10 @@ trait Device extends Addressable {
 
   protected var cpu: CPU = null
 
-  def connectTo( cpu: CPU ): Unit = {
-    this.cpu = cpu
-    cpu.resettable( this )
-  }
+//  def connectTo( cpu: CPU ): Unit = {
+//    this.cpu = cpu
+//    cpu.resettable( this )
+//  }
 
 	def init = {}
 

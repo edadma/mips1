@@ -3,7 +3,12 @@ package xyz.hyperreal.mips1
 
 abstract class Instruction {
 
-  def execute( cpu: MIPS1CPU, inst: Int ): Boolean
+  def execute(cpu: CPU, inst: Int ) = {
+    perform( cpu, inst )
+    true
+  }
+
+  def perform(cpu: CPU, inst: Int ): Unit
 
 }
 
@@ -35,5 +40,11 @@ abstract class RTypeInstruction extends Instruction {
 
   def func( inst: Int ) = inst & 0x3F
 
+
+}
+
+abstract class ExceptionInstruction extends Instruction {
+
+  def code( inst: Int ) = (inst >> 6) & 0xFFFFF
 
 }

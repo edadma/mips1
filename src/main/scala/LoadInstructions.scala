@@ -1,7 +1,7 @@
 package xyz.hyperreal.mips1
 
 
-object LoadStoreInstructions {
+object LoadInstructions {
 
   val LB =
     new ITypeInstruction {

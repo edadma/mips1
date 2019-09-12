@@ -3,7 +3,7 @@ package xyz.hyperreal.mips1
 
 class CPU( val mem: Memory, val endianness: Endianness ) {
 
-  import LoadStoreInstructions._
+  import LoadInstructions._
 
   var pc: Int = 0
   val regs = new Array[Int]( 32 )

@@ -42,6 +42,12 @@ abstract class RTypeInstruction extends Instruction {
 
   def func( inst: Int ) = inst & 0x3F
 
+  def execute( cpu: CPU, inst: Int ) = {
+    perform( cpu, rs(inst), rt(inst), rd(inst), shamt(inst), func(inst) )
+    true
+  }
+
+  def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ): Unit
 
 }
 

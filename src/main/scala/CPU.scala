@@ -9,9 +9,14 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
 
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
+  val special =
+    new RTypeInstruction {
+      def perform(cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int): Unit =
+        functions(func).perform( cpu, rs, rt, rd, shamt, func )
+    }
   val opcodes =
     Array[Instruction](
-      null,
+      special,
       null,
       null,
       null,
@@ -20,7 +25,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       ADDI,//8
-      null,
+      ADDIU,
       null,
       null,
       null,
@@ -60,6 +65,42 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,//30
+    )
+  val functions =
+    Array[RTypeInstruction](
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,//8
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,//10
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,//18
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      ADD
     )
 
   def exception( ex: String ) = {

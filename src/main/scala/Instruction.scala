@@ -7,6 +7,13 @@ abstract class Instruction {
 
 }
 
+class DelayedInstruction( delayed: Instruction ) extends Instruction {
+  def execute( cpu: CPU, inst: Int ): Boolean = {
+    cpu.delayQueue.enqueue( (delayed, inst) )
+    true
+  }
+}
+
 abstract class ITypeInstruction extends Instruction {
 
   def rs( inst: Int ) = (inst >> 21) & 0x1F

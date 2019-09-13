@@ -1,18 +1,22 @@
 package xyz.hyperreal.mips1
 
+import scala.collection.mutable
+
 
 class CPU( val mem: Memory, val endianness: Endianness ) {
 
   import LoadInstructions._
   import StoreInstructions._
   import ArithmeticInstructions._
+  import JumpInstructions._
 
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
   val special =
     new RTypeInstruction {
-      def perform(cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int): Unit =
-        functions(func).perform( cpu, rs, rt, rd, shamt, func )
+      override def execute( cpu: CPU, inst: Int ) = functions(func(inst)).execute( cpu, inst )
+
+      def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = {}
     }
   val opcodes =
     Array[Instruction](
@@ -31,7 +35,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      LUI,
+      delay( LUI ),
       null,//10
       null,
       null,
@@ -48,12 +52,12 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      LB,//20
+      delay( LB ),//20
       null,
       null,
       null,
-      LBU,
-      LW,
+      delay( LBU ),
+      delay( LW ),
       null,
       null,
       SB,//28
@@ -67,7 +71,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,//30
     )
   val functions =
-    Array[RTypeInstruction](
+    Array[Instruction](
       null,
       null,
       null,
@@ -76,7 +80,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      null,//8
+      delay( JR ),//8
       null,
       null,
       null,
@@ -102,6 +106,9 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       ADD
     )
+  val delayQueue = new mutable.Queue[(Instruction, Int)]
+
+  def delay( delayed: Instruction ) = new DelayedInstruction( delayed )
 
   def exception( ex: String ) = {
     println( s"$ex at $pc" )

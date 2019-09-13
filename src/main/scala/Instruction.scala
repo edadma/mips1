@@ -3,12 +3,7 @@ package xyz.hyperreal.mips1
 
 abstract class Instruction {
 
-  def execute(cpu: CPU, inst: Int ) = {
-    perform( cpu, inst )
-    true
-  }
-
-  def perform(cpu: CPU, inst: Int ): Unit
+  def execute( cpu: CPU, inst: Int ): Boolean
 
 }
 
@@ -19,6 +14,13 @@ abstract class ITypeInstruction extends Instruction {
   def rt( inst: Int ) = (inst >> 16) & 0x1F
 
   def imm( inst: Int ) = inst & 0xFF
+
+  def execute( cpu: CPU, inst: Int ) = {
+    perform( cpu, rs(inst), rt(inst), imm(inst) )
+    true
+  }
+
+  def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ): Unit
 
 }
 

@@ -1,4 +1,4 @@
-package xyz.hyperreal.mips
+package xyz.hyperreal.mips1
 
 import jline.console.ConsoleReader
 

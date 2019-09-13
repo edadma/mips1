@@ -4,6 +4,8 @@ package xyz.hyperreal.mips1
 class CPU( val mem: Memory, val endianness: Endianness ) {
 
   import LoadInstructions._
+  import StoreInstructions._
+  import ArithmeticInstructions._
 
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
@@ -17,7 +19,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      null,//8
+      ADDI,//8
       null,
       null,
       null,
@@ -49,8 +51,20 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       LW,
       null,
       null,
-      null,//28
+      SB,//28
+      SH,
+      null,
+      SW,
+      null,
+      null,
+      null,
+      null,
+      null,//30
     )
+
+  def exception( ex: String ) = {
+    println( s"$ex at $pc" )
+  }
 
   def put( reg: Int, v: Int ) =
     if (reg != 0)

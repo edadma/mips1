@@ -120,14 +120,18 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
 
   def execute: Boolean = {
     val inst = mem.readInt( pc )
+    val cont =
+      if (opcodes(inst) eq null) {
+        println( s"unimplemented instruction at $pc" )
+        false
+      } else {
+        pc += 4
+        opcodes(inst >>> 26).execute( this, inst )
+      }
+    val (delayed, inst1) = delayQueue.dequeue
 
-    if (opcodes(inst) eq null) {
-      println( s"unimplemented instruction at $pc" )
-      false
-    } else {
-      pc += 4
-      opcodes(inst >>> 26).execute( this, inst )
-    }
+    delayed.execute( this, inst1 )
+    cont
   }
 
 }

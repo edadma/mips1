@@ -84,7 +84,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      null,
+      ANDI,
       null,
       null,
       null,
@@ -104,7 +104,15 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      ADD
+      ADD,//20
+      ADDU,
+      null,
+      null,
+      null,
+      null,
+      AND,
+      null,
+      null,//28
     )
   val delayQueue = new mutable.Queue[(Instruction, Int)]
 

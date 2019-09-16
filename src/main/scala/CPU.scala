@@ -35,7 +35,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      delay( LUI ),
+      LUI,
       null,//10
       null,
       null,
@@ -52,12 +52,12 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      delay( LB ),//20
+      LB,//20
       null,
       null,
       null,
-      delay( LBU ),
-      delay( LW ),
+      LBU,
+      LW,
       null,
       null,
       SB,//28
@@ -80,7 +80,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      delay( JR ),//8
+      JR,//8
       null,
       null,
       null,
@@ -114,9 +114,17 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,//28
     )
-  val delayQueue = new mutable.Queue[(Instruction, Int)]
+  val delayQueue = new mutable.Queue[DelayedInstruction]
 
-  def delay( delayed: Instruction ) = new DelayedInstruction( delayed )
+  def delay0( action: CPU => Unit ): Unit = delayQueue.enqueue( action(_) )
+
+  def delay1( r: Int, action: (CPU, Int) => Unit ): Unit =
+    delayQueue.enqueue(
+      new DelayedInstruction {
+        private val rv = regs( r )
+
+        def execute( cpu: CPU ) = action( cpu, rv )
+      } )
 
   def exception( ex: String ) = {
     println( s"$ex at $pc" )
@@ -136,12 +144,16 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
         pc += 4
         opcodes(inst >>> 26).execute( this, inst )
       }
-    val (delayed, inst1) = delayQueue.dequeue
+    val delayed = delayQueue.dequeue
 
-    delayed.execute( this, inst1 )
+    delayed.execute( this )
     cont
   }
 
+}
+
+abstract class DelayedInstruction {
+  def execute( cpu: CPU ): Unit
 }
 
 sealed abstract class Endianness

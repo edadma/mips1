@@ -18,9 +18,16 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
 
       def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = {}
     }
+  val branch =
+    new ITypeInstruction {
+      override def execute( cpu: CPU, inst: Int ) = branches(rt(inst)).execute( cpu, inst )
+
+      def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ) = {}
+    }
   val opcodes =
     Array[Instruction](
       special,
+      branch,
       null,
       null,
       null,
@@ -113,6 +120,25 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       AND,
       null,
       null,//28
+    )
+  val branches =
+    Array[Instruction](
+      null,
+      BGEZ,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,//8
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
     )
   val delayQueue = new mutable.Queue[DelayedInstruction]
 

@@ -13,7 +13,7 @@ abstract class ITypeInstruction extends Instruction {
 
   def rt( inst: Int ) = (inst >> 16) & 0x1F
 
-  def imm( inst: Int ) = inst & 0xFF
+  def imm( inst: Int ) = inst & 0xFFFF
 
   def execute( cpu: CPU, inst: Int ) = {
     perform( cpu, rs(inst), rt(inst), imm(inst) )

@@ -24,7 +24,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      null,
+      BEQ,
       null,
       null,
       null,
@@ -124,6 +124,15 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
         private val rv = regs( r )
 
         def execute( cpu: CPU ) = action( cpu, rv )
+      } )
+
+  def delay2( r1: Int, r2: Int, action: (CPU, Int, Int) => Unit ): Unit =
+    delayQueue.enqueue(
+      new DelayedInstruction {
+        private val r1v = regs( r1 )
+        private val r2v = regs( r2 )
+
+        def execute( cpu: CPU ) = action( cpu, r1v, r2v )
       } )
 
   def exception( ex: String ) = {

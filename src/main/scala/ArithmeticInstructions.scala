@@ -32,8 +32,8 @@ object ArithmeticInstructions {
   val DIV =
     new RTypeInstruction {
       def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = {
-        cpu.LO = rs / rt
-        cpu.HI = rs % rt
+        cpu.lo = rs / rt
+        cpu.hi = rs % rt
       }
     }
   val DIVU =
@@ -42,8 +42,8 @@ object ArithmeticInstructions {
         val rsu = rs.toLong&0xFFFFFFFF
         val rtu = rt.toLong&0xFFFFFFFF
 
-        cpu.LO = (rsu / rtu).toInt
-        cpu.HI = (rsu % rtu).toInt
+        cpu.lo = (rsu / rtu).toInt
+        cpu.hi = (rsu % rtu).toInt
       }
     }
 

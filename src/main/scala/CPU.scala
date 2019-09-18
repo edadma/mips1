@@ -11,9 +11,10 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
   import JumpInstructions._
   import LogicInstructions._
   import ExceptionInstructions._
+  import BranchInstructions._
 
-  var HI = 0
-  var LO = 0
+  var hi = 0
+  var lo = 0
   var break = false
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
@@ -182,12 +183,12 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
         println( s"unimplemented instruction at $pc" )
         false
       } else {
-        pc += 4
         opcodes(inst >>> 26).execute( this, inst )
       }
     val delayed = delayQueue.dequeue
 
     delayed.execute( this )
+    pc += 4
     cont
   }
 

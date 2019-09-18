@@ -16,7 +16,7 @@ object JumpInstructions {
   val BGEZAL =
     new ITypeInstruction {
       def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ) =
-        cpu.delay1( rs, (cpu, rsv) => {cpu.put( 31, cpu.pc ); if (rsv >= 0) cpu.pc += imm<<2} )
+        cpu.delay1( rs, (cpu, rsv) => {cpu.put( 31, cpu.pc + 4 ); if (rsv >= 0) cpu.pc += imm<<2} )
     }
   val BGTZ =
     new ITypeInstruction {

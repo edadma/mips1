@@ -9,6 +9,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
   import StoreInstructions._
   import ArithmeticInstructions._
   import JumpInstructions._
+  import LogicInstructions._
 
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
@@ -34,7 +35,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       BEQ,
       null,
       null,
-      null,
+      BGTZ,
       ADDI,//8
       ADDIU,
       null,
@@ -139,6 +140,8 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
+      null,
+      BGEZAL
     )
   val delayQueue = new mutable.Queue[DelayedInstruction]
 

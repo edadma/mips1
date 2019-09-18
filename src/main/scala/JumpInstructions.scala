@@ -13,6 +13,16 @@ object JumpInstructions {
       def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ) =
         cpu.delay1( rs, (cpu, rsv) => if (rsv >= 0) cpu.pc += imm<<2 )
     }
+  val BGEZAL =
+    new ITypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ) =
+        cpu.delay1( rs, (cpu, rsv) => {cpu.put( 31, cpu.pc ); if (rsv >= 0) cpu.pc += imm<<2} )
+    }
+  val BGTZ =
+    new ITypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ) =
+        cpu.delay1( rs, (cpu, rsv) => if (rsv > 0) cpu.pc += imm<<2 )
+    }
   val JR =
     new RTypeInstruction {
       def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) =

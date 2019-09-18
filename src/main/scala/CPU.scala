@@ -10,7 +10,11 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
   import ArithmeticInstructions._
   import JumpInstructions._
   import LogicInstructions._
+  import ExceptionInstructions._
 
+  var HI = 0
+  var LO = 0
+  var break = false
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
   val special =
@@ -29,12 +33,11 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
     Array[Instruction](
       special,
       branch,
-      null,
-      null,
-      null,
+      J,
+      JAL,
       BEQ,
-      null,
-      null,
+      BNE,
+      BLEZ,
       BGTZ,
       ADDI,//8
       ADDIU,
@@ -93,7 +96,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       ANDI,
-      null,
+      BREAK,
       null,
       null,
       null,//10
@@ -106,8 +109,8 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,//18
       null,
-      null,
-      null,
+      DIV,
+      DIVU,
       null,
       null,
       null,
@@ -124,7 +127,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
     )
   val branches =
     Array[Instruction](
-      null,
+      BLTZ,
       BGEZ,
       null,
       null,
@@ -140,7 +143,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      null,
+      BLTZAL,//10
       BGEZAL
     )
   val delayQueue = new mutable.Queue[DelayedInstruction]
@@ -186,6 +189,16 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
 
     delayed.execute( this )
     cont
+  }
+
+  def run = {
+    break = false
+
+    while (execute) {}
+
+    if (break) {
+      //todo: break
+    }
   }
 
 }

@@ -29,5 +29,22 @@ object ArithmeticInstructions {
     new RTypeInstruction {
       def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = cpu.put( rd, rs + rt )
     }
+  val DIV =
+    new RTypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = {
+        cpu.LO = rs / rt
+        cpu.HI = rs % rt
+      }
+    }
+  val DIVU =
+    new RTypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = {
+        val rsu = rs.toLong&0xFFFFFFFF
+        val rtu = rt.toLong&0xFFFFFFFF
+
+        cpu.LO = (rsu / rtu).toInt
+        cpu.HI = (rsu % rtu).toInt
+      }
+    }
 
 }

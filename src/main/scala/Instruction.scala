@@ -28,6 +28,13 @@ abstract class JTypeInstruction extends Instruction {
 
   def targ( inst: Int ) = inst & 0x3FFFFFF
 
+  def execute( cpu: CPU, inst: Int ) = {
+    perform( cpu, targ(inst)<<2 )
+    true
+  }
+
+  def perform( cpu: CPU, targ: Int ): Unit
+
 }
 
 abstract class RTypeInstruction extends Instruction {

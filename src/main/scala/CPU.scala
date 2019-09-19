@@ -12,6 +12,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
   import LogicInstructions._
   import ExceptionInstructions._
   import BranchInstructions._
+  import MoveInstructions._
 
   var hi = 0
   var lo = 0
@@ -100,15 +101,15 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       BREAK,
       null,
       null,
-      null,//10
+      MFHI,//10
+      null,
+      MFLO,
       null,
       null,
       null,
       null,
       null,
-      null,
-      null,
-      null,//18
+      MULT,//18
       null,
       DIV,
       DIVU,

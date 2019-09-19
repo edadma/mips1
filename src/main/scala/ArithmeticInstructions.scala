@@ -46,5 +46,14 @@ object ArithmeticInstructions {
         cpu.hi = (rsu % rtu).toInt
       }
     }
+  val MULT =
+    new RTypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = {
+        val prod = rs.toLong * rt
+
+        cpu.lo = prod.toInt
+        cpu.hi = (prod >>> 32).toInt
+      }
+    }
 
 }

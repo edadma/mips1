@@ -13,6 +13,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
   import ExceptionInstructions._
   import BranchInstructions._
   import MoveInstructions._
+  import ShitInstructions._
 
   var hi = 0
   var lo = 0
@@ -85,11 +86,11 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
     )
   val functions =
     Array[Instruction](
+      SLL,
       null,
       null,
       null,
-      null,
-      null,
+      SLLV,
       null,
       null,
       null,
@@ -110,7 +111,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       MULT,//18
-      null,
+      MULTU,
       DIV,
       DIVU,
       null,
@@ -122,9 +123,9 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       null,
       null,
-      null,
+      OR,
       AND,
-      null,
+      NOR,
       null,//28
     )
   val branches =
@@ -163,8 +164,8 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
   def delay2( r1: Int, r2: Int, action: (CPU, Int, Int) => Unit ): Unit =
     delayQueue.enqueue(
       new DelayedInstruction {
-        private val r1v = regs( r1 )
-        private val r2v = regs( r2 )
+        private val r1v = regs(r1)
+        private val r2v = regs(r2)
 
         def execute( cpu: CPU ) = action( cpu, r1v, r2v )
       } )

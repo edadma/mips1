@@ -48,7 +48,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       SLTIU,
       null,
       null,
-      null,
+      XORI,
       LUI,
       null,//10
       null,
@@ -122,9 +122,9 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       ADDU,
       SUB,
       SUBU,
-      null,
-      OR,
       AND,
+      OR,
+      XOR,
       NOR,
       null,//28
       null,

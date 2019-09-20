@@ -23,5 +23,13 @@ object LogicInstructions {
     new ITypeInstruction {
       def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ) = cpu.put( rt, cpu.regs(rs) | (imm&0xFFFF) )
     }
+  val XOR =
+    new RTypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = cpu.put( rd, cpu.regs(rs) ^ cpu.regs(rt) )
+    }
+  val XORI =
+    new ITypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, imm: Int ) = cpu.put( rt, cpu.regs(rs) ^ (imm&0xFFFF) )
+    }
 
 }

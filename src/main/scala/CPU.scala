@@ -14,6 +14,7 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
   import BranchInstructions._
   import MoveInstructions._
   import ShitInstructions._
+  import SetInstructions._
 
   var hi = 0
   var lo = 0
@@ -44,8 +45,8 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       BGTZ,
       ADDI,//8
       ADDIU,
-      null,
-      null,
+      SLTI,
+      SLTIU,
       null,
       null,
       null,
@@ -88,12 +89,12 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
     Array[Instruction](
       SLL,
       null,
-      null,
-      null,
+      SRL,
+      SRA,
       SLLV,
       null,
-      null,
-      null,
+      SRLV,
+      SRAV,
       JR,//8
       null,
       null,
@@ -127,6 +128,9 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       AND,
       NOR,
       null,//28
+      null,
+      SLT,
+      SLTU,
     )
   val branches =
     Array[Instruction](

@@ -7,7 +7,7 @@ object ArithmeticInstructions {
     val sum64 = cpu.regs(a) + b.toLong
     val sum32 = sum64.toInt
 
-    if ((sum64 >> 63) * (sum32 >> 31) < -1)
+    if ((((sum64 >> 32)&1) ^ (sum32 >>> 31)) == 1)
       cpu.exception( "overflow" )
     else
       cpu.put( c, sum32 )
@@ -65,6 +65,22 @@ object ArithmeticInstructions {
         cpu.lo = prod.toInt
         cpu.hi = (prod >>> 32).toInt
       }
+    }
+  val SUB =
+    new RTypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = {
+        val diff64 = cpu.regs(rs).toLong - cpu.regs(rt)
+        val diff32 = diff64.toInt
+
+        if ((((diff64 >> 32)&1) ^ (diff32 >>> 31)) == 1)
+          cpu.exception( "overflow" )
+        else
+          cpu.put( rd, diff32 )
+      }
+    }
+  val SUBU =
+    new RTypeInstruction {
+      def perform( cpu: CPU, rs: Int, rt: Int, rd: Int, shamt: Int, func: Int ) = cpu.put( rd, cpu.regs(rs) - cpu.regs(rt) )
     }
 
 }

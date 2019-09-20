@@ -121,8 +121,8 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
       null,
       ADD,//20
       ADDU,
-      null,
-      null,
+      SUB,
+      SUBU,
       null,
       OR,
       AND,

@@ -6,8 +6,13 @@ object ExceptionInstructions {
   val BREAK =
     new Instruction {
       def execute( cpu: CPU, inst: Int ) = {
-        cpu.break = true
-        false
+        cpu.exception( BREAK_Exception )
+      }
+    }
+  val SYSCALL =
+    new Instruction {
+      def execute( cpu: CPU, inst: Int ) = {
+        cpu.exception( SYSCALL_Exception )
       }
     }
 

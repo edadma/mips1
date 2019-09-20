@@ -18,7 +18,6 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
 
   var hi = 0
   var lo = 0
-  var break = false
   var pc: Int = 0
   val regs = new Array[Int]( 32 )
   val special =
@@ -174,9 +173,14 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
         def execute( cpu: CPU ) = action( cpu, r1v, r2v )
       } )
 
-  def exception( ex: String ) = {
-    println( s"$ex at $pc" )
-  }
+  def exception( ex: MIPSException ) =
+    ex match {
+      case BREAK_Exception =>
+        true
+      case _ =>
+        println( ex )
+        true
+    }
 
   def put( reg: Int, v: Int ) =
     if (reg != 0)
@@ -198,14 +202,14 @@ class CPU( val mem: Memory, val endianness: Endianness ) {
     cont
   }
 
+  def reset = {
+    pc = 0
+  }
+
   def run = {
-    break = false
+    reset
 
     while (execute) {}
-
-    if (break) {
-      //todo: break
-    }
   }
 
 }
@@ -217,3 +221,9 @@ abstract class DelayedInstruction {
 sealed abstract class Endianness
 case object BigEndian extends Endianness
 case object LittleEndian extends Endianness
+
+sealed abstract class MIPSException
+case object BREAK_Exception extends MIPSException
+case object ADDRESS_Exception extends MIPSException
+case object OVERFLOW_Exception extends MIPSException
+case object SYSCALL_Exception extends MIPSException

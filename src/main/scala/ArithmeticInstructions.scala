@@ -8,7 +8,7 @@ object ArithmeticInstructions {
     val sum32 = sum64.toInt
 
     if ((((sum64 >> 32)&1) ^ (sum32 >>> 31)) == 1)
-      cpu.exception( "overflow" )
+      cpu.exception( OVERFLOW_Exception )
     else
       cpu.put( c, sum32 )
   }
@@ -73,7 +73,7 @@ object ArithmeticInstructions {
         val diff32 = diff64.toInt
 
         if ((((diff64 >> 32)&1) ^ (diff32 >>> 31)) == 1)
-          cpu.exception( "overflow" )
+          cpu.exception( OVERFLOW_Exception )
         else
           cpu.put( rd, diff32 )
       }

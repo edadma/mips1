@@ -3,7 +3,7 @@ package xyz.hyperreal.mips1
 import scala.collection.mutable
 
 
-class CPU( val mem: Memory, val endianness: Endianness ) {
+class CPU( val mem: Addressable, val endianness: Endianness ) {
 
   import LoadInstructions._
   import StoreInstructions._

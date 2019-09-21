@@ -10,7 +10,7 @@ package object mips1 {
 
   def hexShort( a: Int ) = hexByte( a>>8 ) + hexByte( a )
 
-  def hexAddress( a: Int ) = hexByte( a>>16 ) + hexShort( a )
+  def hexAddress( a: Long ) = hexLong( a )
 
   def hexInt( a: Int ) = hexShort( a>>16 ) + hexShort( a )
 

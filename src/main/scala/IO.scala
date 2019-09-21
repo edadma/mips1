@@ -3,41 +3,41 @@ package xyz.hyperreal.mips1
 import jline.console.ConsoleReader
 
 
-class StdIOChar( val start: Int ) extends SingleAddressDevice {
+class StdIOChar( val start: Long ) extends SingleAddressDevice {
 	
 	val name = "stdio-char"
 	
-	def readByte( addr: Int ) = io.StdIn.readChar.toInt
+	def readByte( addr: Long ) = io.StdIn.readChar.toInt
 	
-	def writeByte( addr: Int, value: Int ) = print( value.toChar )
+	def writeByte( addr: Long, value: Int ) = print( value.toChar )
 	
 }
 
-class StdIOInt( val start: Int ) extends SingleAddressDevice {
+class StdIOInt( val start: Long ) extends SingleAddressDevice {
 	
 	val name = "stdio-int"
 	
-	def readByte( addr: Int ) = io.StdIn.readInt
+	def readByte( addr: Long ) = io.StdIn.readInt
 	
-	def writeByte( addr: Int, value: Int ) = print( value )
+	def writeByte( addr: Long, value: Int ) = print( value )
 	
 }
 
-class StdIOHex( val start: Int ) extends SingleAddressDevice {
+class StdIOHex( val start: Long ) extends SingleAddressDevice {
 	
 	val name = "stdio-hex"
 	
-	def readByte( addr: Int ) = hex( io.StdIn.readLine )
+	def readByte( addr: Long ) = hex( io.StdIn.readLine )
 	
-	def writeByte( addr: Int, value: Int ) = print( value.toHexString )
+	def writeByte( addr: Long, value: Int ) = print( value.toHexString )
 	
 }
 
-class JLineInt( val start: Int, reader: ConsoleReader ) extends SingleAddressDevice {
+class JLineInt( val start: Long, reader: ConsoleReader ) extends SingleAddressDevice {
 	
 	val name = "stdio-int"
 	
-	def readByte( addr: Int ) = {
+	def readByte( addr: Long ) = {
 		val p = reader.getPrompt
 		val res = reader.readLine("").toInt
 		
@@ -45,15 +45,15 @@ class JLineInt( val start: Int, reader: ConsoleReader ) extends SingleAddressDev
 		res
 	}
 	
-	def writeByte( addr: Int, value: Int ) = print( value )
+	def writeByte( addr: Long, value: Int ) = print( value )
 	
 }
 
-class JLineHex( val start: Int, reader: ConsoleReader ) extends SingleAddressDevice {
+class JLineHex( val start: Long, reader: ConsoleReader ) extends SingleAddressDevice {
 	
 	val name = "stdio-hex"
 	
-	def readByte( addr: Int ) = {
+	def readByte( addr: Long ) = {
 		val p = reader.getPrompt
 		val res = hex( reader.readLine("") )
 		
@@ -61,19 +61,19 @@ class JLineHex( val start: Int, reader: ConsoleReader ) extends SingleAddressDev
 		res
 	}
 	
-	def writeByte( addr: Int, value: Int ) = print( value.toHexString )
+	def writeByte( addr: Long, value: Int ) = print( value.toHexString )
 	
 }
 
-class RNG( val start: Int ) extends ReadOnlyDevice {
+class RNG( val start: Long ) extends ReadOnlyDevice {
 	
 	val name = "rng"
 	
-	def readByte( addr: Int ) = util.Random.nextInt( 0x100 )
+	def readByte( addr: Long ) = util.Random.nextInt( 0x100 )
 	
 }
 
-//class VideoRAM( start: Int, keyPress: KeyPress, width: Int, height: Int, square: Int, cpu: CPU, palette: Seq[Int] ) extends RAM( "video", start, start + width*height - 1 ) with Device {
+//class VideoRAM( start: Long, keyPress: KeyPress, width: Int, height: Int, square: Int, cpu: CPU, palette: Seq[Int] ) extends RAM( "video", start, start + width*height - 1 ) with Device {
 //
 //	import javax.swing.BorderFactory._
 //	import javax.swing.WindowConstants._
@@ -173,7 +173,7 @@ class RNG( val start: Int ) extends ReadOnlyDevice {
 //		panel.repaint
 //	}
 //
-//	override def writeByte( addr: Int, value: Int ) = {
+//	override def writeByte( addr: Long, value: Int ) = {
 //		super.writeByte( addr, value )
 //		panel.repaint
 //	}
